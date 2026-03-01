@@ -31,11 +31,11 @@ jobs:
         with:
           name: test-outputs
           path: Tests/*.out
-          
+
       - name: Commit and push test results
         run: |
           git config --global user.name 'github-actions'
           git config --global user.email 'github-actions@github.com'
-          git add Tests/*.out
+          git add -f Tests/*.out
           git diff --quiet && git diff --staged --quiet || git commit -m "Update test outputs [skip ci]"
           git push
