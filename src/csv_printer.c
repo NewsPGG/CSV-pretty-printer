@@ -13,14 +13,16 @@ char** parse_csv_line(char* line, int* out_count)
     // Считаем количество запятых
     int commas = 0;
     for (char* p = line; *p; p++)
-        if (*p == ',') commas++;
+        if (*p == ',') {
+            commas++;
+        }
     int count = commas + 1;
     *out_count = count;
 
     char** fields = malloc((count + 1) * sizeof(char*));
     int idx = 0;
     char* start = line;
-    for (char* p = line; ; p++) {
+    for (char* p = line;; p++) {
         if (*p == ',' || *p == '\0') {
             int len = p - start;
             char* field = malloc(len + 1);
@@ -28,7 +30,9 @@ char** parse_csv_line(char* line, int* out_count)
             field[len] = '\0';
             fields[idx++] = field;
             start = p + 1;
-            if (*p == '\0') break;
+            if (*p == '\0') {
+                break;
+            }
         }
     }
     fields[idx] = NULL;
@@ -38,7 +42,9 @@ char** parse_csv_line(char* line, int* out_count)
 // Функция для освобождения памяти
 void free_fields(char** fields)
 {
-    if (!fields) return;
+    if (!fields) {
+        return;
+    }
     for (int i = 0; fields[i]; i++) {
         free(fields[i]);
     }
@@ -48,7 +54,9 @@ void free_fields(char** fields)
 // Функция проверки на число
 int is_number(const char* str)
 {
-    if (!str || !*str) return 0;
+    if (!str || !*str) {
+        return 0;
+    }
     char* endptr;
     strtod(str, &endptr);
     while (*endptr && isspace((unsigned char)*endptr)) {
@@ -58,7 +66,7 @@ int is_number(const char* str)
 }
 
 // Печатает разделительную линию
-void print_sep(FILE *out, char ch, int* widths, int num_cols)
+void print_sep(FILE* out, char ch, int* widths, int num_cols)
 {
     for (int i = 0; i < num_cols; i++) {
         fputc('+', out);

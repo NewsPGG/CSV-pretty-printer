@@ -31,7 +31,8 @@ int main(int argc, char* argv[])
     // Читаем заголовки
     if (!fgets(buffer, sizeof(buffer), in)) {
         fprintf(stderr, "Empty file\n");
-        fclose(in); fclose(out);
+        fclose(in);
+        fclose(out);
         return 1;
     }
     int num_cols;
@@ -64,12 +65,16 @@ int main(int argc, char* argv[])
     int* widths = calloc(num_cols, sizeof(int));
     for (int i = 0; i < num_cols; i++) {
         int len = strlen(headers[i]);
-        if (len > widths[i]) widths[i] = len;
+        if (len > widths[i]) {
+            widths[i] = len;
+        }
     }
     for (int r = 0; r < num_rows; r++) {
         for (int c = 0; c < num_cols; c++) {
             int len = strlen(rows[r][c]);
-            if (len > widths[c]) widths[c] = len;
+            if (len > widths[c]) {
+                widths[c] = len;
+            }
         }
     }
 
@@ -86,20 +91,25 @@ int main(int argc, char* argv[])
     // Строки данных
     for (int r = 0; r < num_rows; r++) {
         for (int c = 0; c < num_cols; c++) {
-            if (is_number(rows[r][c]))
+            if (is_number(rows[r][c])) {
                 fprintf(out, "| %*s ", widths[c], rows[r][c]);  // вправо
-            else
+            } else {
                 fprintf(out, "| %-*s ", widths[c], rows[r][c]); // влево
+            }
         }
         fprintf(out, "|\n");
         print_sep(out, '-', widths, num_cols);
     }
 
     // Освобождаем память
-    for (int i = 0; i < num_cols; i++) free(headers[i]);
+    for (int i = 0; i < num_cols; i++) {
+        free(headers[i]);
+    }
     free(headers);
     for (int r = 0; r < num_rows; r++) {
-        for (int c = 0; c < num_cols; c++) free(rows[r][c]);
+        for (int c = 0; c < num_cols; c++) {
+            free(rows[r][c]);
+        }
         free(rows[r]);
     }
     free(rows);
