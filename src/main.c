@@ -92,7 +92,7 @@ int main(int argc, char* argv[])
     for (int r = 0; r < num_rows; r++) {
         for (int c = 0; c < num_cols; c++) {
             if (is_number(rows[r][c])) {
-                fprintf(out, "| %*s ", widths[c], rows[r][c]);  // вправо
+                fprintf(out, "| %*s ", widths[c], rows[r][c]); // вправо
             } else {
                 fprintf(out, "| %-*s ", widths[c], rows[r][c]); // влево
             }
